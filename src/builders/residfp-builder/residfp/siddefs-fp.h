@@ -21,10 +21,10 @@
 #define SIDDEFS_FP_H
 
 // Compilation configuration.
-#define RESID_BRANCH_HINTS @RESID_BRANCH_HINTS@
+#define RESID_BRANCH_HINTS 1
 
 // Compiler specifics.
-#define HAVE_BUILTIN_EXPECT @HAVE_BUILTIN_EXPECT@
+#define HAVE_BUILTIN_EXPECT 0
 
 #ifndef M_PI
 #  define M_PI    3.14159265358979323846
@@ -43,20 +43,20 @@ namespace reSIDfp {
 
 typedef enum { MOS6581=1, MOS8580 } ChipModel;
 
-typedef enum { DECIMATE=1, RESAMPLE } SamplingMethod;
+typedef enum { DECIMATE=1, RESAMPLE, SILENT } SamplingMethod;
 }
 
 extern "C"
 {
-#ifndef __VERSION_CC__
-extern const char* residfp_version_string;
-#else
-const char* residfp_version_string = "@PACKAGE_VERSION@";
-#endif
+//#ifndef __VERSION_CC__
+//extern const char* residfp_version_string;
+//#else
+//const char* residfp_version_string = "@PACKAGE_VERSION@";
+//#endif
 }
 
 // Inlining on/off.
-#define RESID_INLINING @RESID_INLINING@
-#define RESID_INLINE @RESID_INLINE@
+#define RESID_INLINING 1
+#define RESID_INLINE inline
 
 #endif // SIDDEFS_FP_H

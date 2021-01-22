@@ -40,6 +40,16 @@ namespace libsidplayfp
     class Player;
 }
 
+struct NoteState
+{
+	int frequency;
+	bool gate;
+	int volume;
+	bool gateChanged;
+	int waveform;
+};
+
+
 /**
  * sidplayfp
  */
@@ -163,6 +173,11 @@ public:
      * Get the CIA 1 Timer A programmed value.
      */
     uint_least16_t getCia1TimerA() const;
+
+	/**
+	* Get state of channel in SID chip
+	*/
+	void getNoteState(NoteState &output, int channel) const;
 };
 
 #endif // SIDPLAYFP_H

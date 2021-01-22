@@ -31,6 +31,8 @@
 
 #include <vector>
 
+struct NoteState;
+
 namespace libsidplayfp
 {
 
@@ -146,7 +148,7 @@ public:
     /**
      * Do the mixing.
      */
-    void doMix();
+    void doMix(bool disableAudio);
 
     /**
      * This clocks the SID chips to the present moment, if they aren't already.
@@ -218,6 +220,8 @@ public:
      * Get the number of samples generated up to now.
      */
     uint_least32_t samplesGenerated() const { return m_sampleIndex; }
+
+	void getNoteState(NoteState &output, int channel) const;
 };
 
 }

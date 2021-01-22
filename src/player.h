@@ -45,6 +45,7 @@
 class SidTune;
 class SidInfo;
 class sidbuilder;
+struct NoteState;
 
 
 namespace libsidplayfp
@@ -123,8 +124,7 @@ private:
      * @param sampling the sampling method to use
      * @param fastSampling true to enable fast low quality resampling (only for reSID)
      */
-    void sidParams(double cpuFreq, int frequency,
-                    SidConfig::sampling_method_t sampling, bool fastSampling);
+     void sidParams(double cpuFreq, int frequency, SidConfig::sampling_method_t sampling, bool fastSampling, bool disableAudio);
 
     inline void run(unsigned int events);
 
@@ -161,6 +161,10 @@ public:
     void setRoms(const uint8_t* kernal, const uint8_t* basic, const uint8_t* character);
 
     uint_least16_t getCia1TimerA() const { return m_c64.getCia1TimerA(); }
+	void getNoteState(NoteState &output, int channel) const
+	{
+		m_mixer.getNoteState(output, channel);
+	}
 };
 
 }

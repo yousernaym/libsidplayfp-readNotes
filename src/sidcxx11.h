@@ -21,6 +21,8 @@
 #ifndef SIDCXX11_H
 #define SIDCXX11_H
 
+#define HAVE_CXX11
+
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif

@@ -87,6 +87,7 @@ void EnvelopeGenerator::reset()
     release = 0;
 
     gate = false;
+	gateChanged = false;
 
     resetLfsr = true;
 
@@ -106,6 +107,7 @@ void EnvelopeGenerator::writeCONTROL_REG(unsigned char control)
     if (gate_next != gate)
     {
         gate = gate_next;
+        gateChanged = true;
 
         // The rate counter is never reset, thus there will be a delay before the
         // envelope counter starts counting up (attack) or down (release).

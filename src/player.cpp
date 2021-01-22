@@ -214,7 +214,7 @@ uint_least32_t Player::play(short *buffer, uint_least32_t count)
                         run(sidemu::OUTPUTBUFFERSIZE);
 
                         m_mixer.clockChips();
-                        m_mixer.doMix();
+                       m_mixer.doMix(m_cfg.disableAudio);
                     }
                     count = m_mixer.samplesGenerated();
                 }
@@ -222,13 +222,15 @@ uint_least32_t Player::play(short *buffer, uint_least32_t count)
                 {
                     // Clock chips and discard buffers
                     int size = m_c64.getMainCpuSpeed() / m_cfg.frequency;
-                    while (m_isPlaying && --size)
+                    int bufferIterations = (int)((float)count * size / sidemu::OUTPUTBUFFERSIZE);
+					for (int j = 0; j < bufferIterations; j ++)
                     {
                         run(sidemu::OUTPUTBUFFERSIZE);
 
                         m_mixer.clockChips();
                         m_mixer.resetBufs();
                     }
+                    count = bufferIterations * sidemu::OUTPUTBUFFERSIZE / size;
                 }
             }
             else
@@ -316,7 +318,7 @@ bool Player::config(const SidConfig &cfg, bool force)
             m_c64.setModel(model);
             m_c64.setCiaModel(cfg.ciaModel);
 
-            sidParams(m_c64.getMainCpuSpeed(), cfg.frequency, cfg.samplingMethod, cfg.fastSampling);
+            sidParams(m_c64.getMainCpuSpeed(), cfg.frequency, cfg.samplingMethod, cfg.fastSampling, cfg.disableAudio);
 
             // Configure, setup and install C64 environment/events
             initialise();
@@ -535,15 +537,14 @@ void Player::sidCreate(sidbuilder *builder, SidConfig::sid_model_t defaultModel,
     }
 }
 
-void Player::sidParams(double cpuFreq, int frequency,
-                        SidConfig::sampling_method_t sampling, bool fastSampling)
+void Player::sidParams(double cpuFreq, int frequency, SidConfig::sampling_method_t sampling, bool fastSampling, bool disableAudio)
 {
     for (unsigned int i = 0; ; i++)
     {
         sidemu *s = m_mixer.getSid(i);
         if (s == nullptr)
             break;
-
+	s->disableAudio(disableAudio);
         s->sampling((float)cpuFreq, frequency, sampling, fastSampling);
     }
 }

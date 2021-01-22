@@ -39,11 +39,15 @@
 #endif
 
 #ifndef PACKAGE_NAME
-#  define PACKAGE_NAME PACKAGE
+#   define PACKAGE_NAME ""
 #endif
 
 #ifndef PACKAGE_VERSION
-#  define PACKAGE_VERSION VERSION
+#   define PACKAGE_VERSION ""
+#endif
+
+#ifndef PACKAGE_UFL
+#   define PACKAGE_URL ""
 #endif
 
 /**
