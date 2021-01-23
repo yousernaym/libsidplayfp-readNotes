@@ -1053,7 +1053,7 @@ void MOS6510::clv_instr()
 void MOS6510::compare(uint8_t data)
 {
     const uint_least16_t tmp = static_cast<uint_least16_t>(data) - Cycle_Data;
-    flags.setNZ(tmp);
+    flags.setNZ((uint8_t)tmp);
     flags.setC(tmp < 0x100);
     interruptsAndNextOpcode();
 }
@@ -1356,7 +1356,7 @@ void MOS6510::dcm_instr()
     PutEffAddrDataByte();
     Cycle_Data--;
     const uint_least16_t tmp = static_cast<uint_least16_t>(Register_Accumulator) - Cycle_Data;
-    flags.setNZ(tmp);
+    flags.setNZ((uint8_t)tmp);
     flags.setC(tmp < 0x100);
 }
 
