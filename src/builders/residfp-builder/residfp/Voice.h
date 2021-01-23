@@ -99,7 +99,7 @@ public:
 	{
 		state.gateChanged = envelopeGenerator->getGateChanged();
 		state.gate = envelopeGenerator->getGate();
-		state.volume = envelopeGenerator->output();
+		state.volume = (int)envelopeGenerator->output();
 		state.frequency = waveformGenerator->readFreq();
 		state.waveform = waveformGenerator->readWaveform();
 	}

@@ -104,7 +104,7 @@ void ReSIDfp::clock()
 {
     const event_clock_t cycles = eventScheduler->getTime(EVENT_CLOCK_PHI1) - m_accessClk;
     m_accessClk += cycles;
-    m_bufferpos += m_sid.clock(cycles, m_buffer+m_bufferpos, m_disableAudio);
+    m_bufferpos += m_sid.clock((int)cycles, m_buffer+m_bufferpos, m_disableAudio);
 }
 
 void ReSIDfp::filter(bool enable)
@@ -137,7 +137,7 @@ void ReSIDfp::sampling(float systemclock, float freq,
 
     try
     {
-        const int halfFreq = (freq > 44000) ? 20000 : 9 * freq / 20;
+        const int halfFreq = (int)((freq > 44000) ? 20000 : 9 * freq / 20);
         m_sid.setSamplingParameters(systemclock, sampleMethod, freq, halfFreq);
     }
     catch (reSIDfp::SIDError const &)

@@ -73,7 +73,7 @@ void Mixer::resetBufs()
 
 void Mixer::doMix(bool disableAudio)
 {
-    short *buf = m_sampleBuffer + m_sampleIndex;
+    float *buf = m_sampleBuffer + m_sampleIndex;
 
     // extract buffer info now that the SID is updated.
     // clock() may update bufferpos.
@@ -121,9 +121,9 @@ void Mixer::doMix(bool disableAudio)
         {
         	 if (!disableAudio)
         	 {
-            	const int_least32_t tmp = ((this->*(m_mix[ch]))() * m_volume[ch] + dither) / VOLUME_MAX;
+            	const float tmp = ((float)(this->*(m_mix[ch]))() * m_volume[ch] + dither) / VOLUME_MAX;
             	assert(tmp >= -32768 && tmp <= 32767);
-            	*buf++ = static_cast<short>(tmp);
+            	*buf++ = tmp / 32768.f;
             }
             m_sampleIndex++;
         }
@@ -135,7 +135,7 @@ void Mixer::doMix(bool disableAudio)
     std::for_each(m_chips.begin(), m_chips.end(), bufferPos(samplesLeft));
 }
 
-void Mixer::begin(short *buffer, uint_least32_t count)
+void Mixer::begin(float *buffer, uint_least32_t count)
 {
     m_sampleIndex  = 0;
     m_sampleCount  = count;

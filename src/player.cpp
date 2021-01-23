@@ -188,7 +188,7 @@ void Player::run(unsigned int events)
         m_c64.clock();
 }
 
-uint_least32_t Player::play(short *buffer, uint_least32_t count)
+uint_least32_t Player::play(float *buffer, uint_least32_t count)
 {
     // Make sure a tune is loaded
     if (m_tune == nullptr)
@@ -221,7 +221,7 @@ uint_least32_t Player::play(short *buffer, uint_least32_t count)
                 else
                 {
                     // Clock chips and discard buffers
-                    int size = m_c64.getMainCpuSpeed() / m_cfg.frequency;
+                    int size = (int)(m_c64.getMainCpuSpeed() / m_cfg.frequency);
                     int bufferIterations = (int)((float)count * size / sidemu::OUTPUTBUFFERSIZE);
 					for (int j = 0; j < bufferIterations; j ++)
                     {
@@ -236,7 +236,7 @@ uint_least32_t Player::play(short *buffer, uint_least32_t count)
             else
             {
                 // Clock the machine
-                int size = m_c64.getMainCpuSpeed() / m_cfg.frequency;
+                int size = (int)(m_c64.getMainCpuSpeed() / m_cfg.frequency);
                 while (m_isPlaying && --size)
                 {
                     run(sidemu::OUTPUTBUFFERSIZE);
@@ -516,7 +516,7 @@ void Player::sidCreate(sidbuilder *builder, SidConfig::sid_model_t defaultModel,
             // model as the first SID.
             defaultModel = userModel;
 
-            const unsigned int extraSidChips = extraSidAddresses.size();
+            const unsigned int extraSidChips = (unsigned int)extraSidAddresses.size();
 
             for (unsigned int i = 0; i < extraSidChips; i++)
             {
@@ -544,8 +544,8 @@ void Player::sidParams(double cpuFreq, int frequency, SidConfig::sampling_method
         sidemu *s = m_mixer.getSid(i);
         if (s == nullptr)
             break;
-	s->disableAudio(disableAudio);
-        s->sampling((float)cpuFreq, frequency, sampling, fastSampling);
+		s->disableAudio(disableAudio);
+        s->sampling((float)cpuFreq, (float)frequency, sampling, fastSampling);
     }
 }
 

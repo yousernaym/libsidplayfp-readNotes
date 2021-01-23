@@ -76,7 +76,7 @@ private:
     int m_fastForwardFactor;
 
     // Mixer settings
-    short         *m_sampleBuffer;
+    float         *m_sampleBuffer;
     uint_least32_t m_sampleCount;
     uint_least32_t m_sampleIndex;
 
@@ -166,7 +166,7 @@ public:
      * @param buffer output buffer
      * @param count size of the buffer in samples
      */
-    void begin(short *buffer, uint_least32_t count);
+    void begin(float *buffer, uint_least32_t count);
 
     /**
      * Remove all SIDs from the mixer.
